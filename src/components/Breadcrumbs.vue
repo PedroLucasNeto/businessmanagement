@@ -3,7 +3,7 @@
     <ul>
       <li v-for="item in items" :key="item.path">
         <RouterLink :to="item.path" class="flex items-center justify-center gap-2" active-class="text-primary">
-          <fa :icon="'fa-solid fa-home'" />
+          <fa :icon="item.icon" />
           {{ item.name }}
         </RouterLink>
       </li>
@@ -16,12 +16,16 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const items = [
-  { name: 'Início', path: '/management' },
-  { name: 'Produtos', path: '/management/product' },
-  { name: 'Ensaios', path: '/management/booking' },
-  { name: 'Eventos', path: '/management/event' },
-  { name: 'Orçamentos', path: '/management/budget' },
-  { name: 'Lançamentos', path: '/management/transaction' },
+  { name: 'Gestão', icon: 'fa-solid fa-home', path: '/management' },
+  { name: 'Orçamentos', icon: 'fa-solid fa-bag-shopping', path: '/management/budget' },
+  { name: 'Ensaios', icon: 'fa-solid fa-calendar', path: '/management/booking' },
+  { name: 'Clientes', icon: 'fa-solid fa-user', path: '/management/client' },
+  { name: 'Eventos', icon: 'fa-solid fa-flag', path: '/management/event' },
+  { name: 'Produtos', icon: 'fa-solid fa-box-open', path: '/management/product' },
+  { name: 'Lançamentos', icon: 'fa-solid fa-money-bill-transfer', path: '/management/transaction' },
+  { name: 'Categoria', icon: 'fa-solid fa-money-bill-transfer', path: '/management/category' },
+  { name: 'Pacote', icon: 'fa-solid fa-money-bill-transfer', path: '/management/pricing' },
+
 ]
 
 const route = useRoute();

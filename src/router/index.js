@@ -15,19 +15,19 @@ const router = createRouter({
       component: () => import('@/pages/management/Management.vue'),
       children: [
         {
+          path: 'budget',
+          name: 'budget',
+          component: () => import('@/pages/management/components/budget/Budget.vue')
+        },
+        {
           path: 'booking',
           name: 'booking',
           component: () => import('@/pages/management/components/booking/Booking.vue')
         },
         {
-          path: 'product',
-          name: 'product',
-          component: () => import('@/pages/management/components/product/Product.vue')
-        },
-        {
-          path: 'budget',
-          name: 'budget',
-          component: () => import('@/pages/management/components/budget/Budget.vue')
+          path: 'client',
+          name: 'client',
+          component: () => import('@/pages/management/components/client/Client.vue')
         },
         {
           path: 'event',
@@ -35,9 +35,24 @@ const router = createRouter({
           component: () => import('@/pages/management/components/event/Event.vue')
         },
         {
+          path: 'product',
+          name: 'product',
+          component: () => import('@/pages/management/components/product/Product.vue')
+        },
+        {
           path: 'transaction',
           name: 'transaction',
           component: () => import('@/pages/management/components/transaction/Transcation.vue')
+        },
+        {
+          path: 'category',
+          name: 'category',
+          component: () => import('@/pages/management/components/category/Category.vue')
+        },
+        {
+          path: 'pricing',
+          name: 'pricing',
+          component: () => import('@/pages/management/components/pricing/Pricing.vue')
         }
       ]
     }
