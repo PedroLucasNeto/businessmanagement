@@ -34,9 +34,12 @@ const router = createRouter({
           name: 'event',
           component: () => import('@/pages/management/components/event/Event.vue')
         },
-
-      ],
-     
+        {
+          path: 'transaction',
+          name: 'transaction',
+          component: () => import('@/pages/management/components/transaction/Transcation.vue')
+        }
+      ]
     }
     // {
     //   path: '/about',

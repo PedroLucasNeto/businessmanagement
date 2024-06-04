@@ -19,7 +19,6 @@
 
 <script setup>
 import StatusBar from '@/components/StatusBar.vue';
-import Dropdown from '@/components/Dropdown.vue';
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import CtaImageCard from '@/components/CtaImageCard.vue';
