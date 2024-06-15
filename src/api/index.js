@@ -8,14 +8,13 @@ api.interceptors.request.use(async (request) => {
   const token = sessionStorage.getItem('token');
 
   if (token) {
-    const parsedToken = JSON.parse(token);
-    request.headers.Authorization = `Bearer ${parsedToken.token}`;
+    const rawToken = sessionStorage.getItem('rawToken');
+    request.headers.Authorization = `Bearer ${rawToken}`;
     request.headers["Content-Type"] = `application/json`;
     request.headers.Accept = `application/json`;
   }
 
   await new Promise(resolve => setTimeout(resolve, 500));
-
 
   return request;
 });

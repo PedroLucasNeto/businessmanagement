@@ -18,37 +18,32 @@
 import Table from '@/components/Table.vue';
 import { ref, watch, nextTick, onMounted, computed } from 'vue';
 import ProductsForm from './ProductsForm.vue';
-import productsService from '@/api/services/productsService.js';
 
 const isOpen = ref(false);
 const formProduct = ref(null);
 const product = ref({})
 const data = ref([]);
 
-function createProduct() {
+function createProduct () {
     product.value = {};
     toggleForm();
 }
-function toggleForm() {
+function toggleForm () {
     isOpen.value = !isOpen.value;
 }
 
-function editItem(item) {
+function editItem (item) {
     product.value = item;
     toggleForm();
 }
-function deleteItem(item) {
-    productsService.deleteProduct(item.id);
-    getProducts();
+function deleteItem (item) {
 }
-function retrieveItem(item) {
+function retrieveItem (item) {
 }
 
 const fields = [{ label: '#', conf: 'id' }, { label: 'Nome', conf: 'name' }, { label: 'Preço', conf: 'price' }];
 
-async function getProducts() {
-    const response = await productsService.getAllProducts();
-    data.value = response;
+async function getProducts () {
 }
 
 const products = computed(() => data.value.map((product) => {

@@ -21,7 +21,6 @@
 </template>
 
 <script setup>
-import productsService from '@/api/productsService.js';
 
 const product = defineModel('product', {
   type: Object
@@ -40,8 +39,6 @@ function setProductImage (e) {
 
 async function saveProduct () {
   try {
-    await productsService.createProduct(product.value);
-    product.value = {};
   } catch (error) {
     console.log(error)
   }
@@ -49,8 +46,6 @@ async function saveProduct () {
 
 async function editProduct () {
   try {
-    await productsService.updateProduct(product.value);
-    product.value = {};
   } catch (error) {
     console.log(error)
   }
