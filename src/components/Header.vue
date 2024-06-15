@@ -8,10 +8,16 @@
       </RouterLink>
       <RouterLink to="/management" v-if="isAdmin" class="cursor-pointer hover:text-secondary"
         active-class="text-primary">
+        <fa icon="fa-solid fa-table-cells-large" />
+      </RouterLink>
+      <RouterLink to="/settings" v-if="isAdmin" class="cursor-pointer hover:text-secondary"
+        active-class="text-primary">
+        <fa icon="fa-solid fa-user" />
+      </RouterLink>
+      <RouterLink to="/settings" v-if="isAdmin" class="cursor-pointer hover:text-secondary"
+        active-class="text-primary">
         <fa icon="fa-solid fa-gear" />
       </RouterLink>
-      <fa :icon="'fa-solid fa-cart-shopping'" @click="toggleCart" class="cursor-pointer hover:text-secondary"
-        v-if="!isAdmin"></fa>
       <ToggleTheme />
       <RouterLink to="/">Sair</RouterLink>
     </ul>

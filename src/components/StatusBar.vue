@@ -9,9 +9,9 @@
           </path>
         </svg>
       </div>
-      <div class="stat-title">Total Likes</div>
-      <div class="stat-value text-primary">25.6K</div>
-      <div class="stat-desc">21% more than last month</div>
+      <div class="stat-title">Agendamentos</div>
+      <div class="stat-value text-primary">{{booking.count}}</div>
+      <div class="stat-desc">{{booking.comparedToLastMonth}}% {{booking.comparedToLastMonth >0 ? 'a mais' : 'a menos'}} que o mês passado</div>
     </div>
     <div class="stat">
       <div class="stat-figure text-secondary">
@@ -20,9 +20,9 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
         </svg>
       </div>
-      <div class="stat-title">Page Views</div>
-      <div class="stat-value text-secondary">2.6M</div>
-      <div class="stat-desc">21% more than last month</div>
+      <div class="stat-title">Orçamentos</div>
+      <div class="stat-value text-secondary">{{budget.count}}</div>
+      <div class="stat-desc">{{budget.comparedToLastMonth}}% {{budget.comparedToLastMonth >0 ? 'a mais' : 'a menos'}} que o mês passado</div>
     </div>
     <div class="stat">
       <div class="stat-figure text-secondary">
@@ -32,14 +32,38 @@
           </div>
         </div>
       </div>
-      <div class="stat-value">86%</div>
-      <div class="stat-title">Tasks done</div>
-      <div class="stat-desc text-secondary">31 tasks remaining</div>
+      <div class="stat-value">{{goalPercentage}}%</div>
+      <div class="stat-title">Meta</div>
+      <div class="stat-desc text-secondary">{{goalPercentage >= 100 ? 'Meta alcançada!' : `${bookingRemaining} para alcançar a meta`}}</div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
+const props = defineProps({
+  booking: {
+    type: Object,
+    required: true
+  },
+  budget: {
+    type: Object,
+    required: true
+  },
+  goal: {
+    type: Number,
+    required: true
+  }
+});
+
+const goalPercentage = computed(() => {
+  return (props.booking.count / props.goal) * 100;
+});
+
+const bookingRemaining = computed(() =>
+    props.goal - props.booking.count
+);
 </script>
 
 <style scoped></style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col gap-4">
     <div>
       <h1 class="">Bem vindo <span class="font-bold">{Username}</span></h1>
       <h2>Mensagem...</h2>
@@ -7,28 +7,31 @@
     <nav class="flex justify-between p-4 items-center">
       <Breadcrumbs />
     </nav>
-    <div v-show="toggleStatusBar" class="flex flex-col justify-center items-center gap-4">
-      <StatusBar />
-      <CtaImageCard />
+    <div class="flex flex-col justify-center items-center gap-4">
+      <StatusBar :booking="booking" :budget="budget" :goal="goal" />
     </div>
-    <div class="flex flex-col items-center gap-4 bg-base-300 p-4 h-screen">
+      <!-- <CtaImageCard /> -->
+    <div class="flex flex-col items-center gap-4 bg-base-200 p-4 h-screen">
       <RouterView />
     </div>
   </div>
 </template>
 
 <script setup>
-import StatusBar from '@/components/StatusBar.vue';
-import { computed, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import CtaImageCard from '@/components/CtaImageCard.vue';
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
-const route = useRoute();
+import StatusBar from '@/components/StatusBar.vue'
+import Breadcrumbs from '@/components/Breadcrumbs.vue'
+import { ref } from 'vue';
 
-const toggleStatusBar = computed(() => {
-  return route.fullPath === '/management';
+const booking = ref({
+  count: 2,
+  comparedToLastMonth: 10,
+})
+const budget = ref({
+  count: 1,
+  comparedToLastMonth: 10,
 })
 
+const goal = ref(10);
 </script>
 
 <style scoped></style>

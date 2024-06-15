@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/pages/home/Home.vue'
+import Login from '@/pages/login/Login.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,10 +11,20 @@ const router = createRouter({
       component: Home
     },
     {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
       path: '/management',
       name: 'management',
       component: () => import('@/pages/management/Management.vue'),
       children: [
+        {
+          path: 'calendar',
+          name: 'calendar',
+          component: () => import('@/pages/management/components/calendar/Calendar.vue')
+        },
         {
           path: 'budget',
           name: 'budget',

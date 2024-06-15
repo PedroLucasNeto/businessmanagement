@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-start w-full">
+    <div class="flex justify-end w-full">
         <button :class="isOpen ? 'btn-error' : 'btn-success'" class="btn w-fit  text-white " @click="createProduct">{{
             isOpen ? 'Cancelar' : 'Adicionar' }}</button>
     </div>
@@ -18,7 +18,7 @@
 import Table from '@/components/Table.vue';
 import { ref, watch, nextTick, onMounted, computed } from 'vue';
 import ProductsForm from './ProductsForm.vue';
-import productsService from '@/api/productsService.js';
+import productsService from '@/api/services/productsService.js';
 
 const isOpen = ref(false);
 const formProduct = ref(null);

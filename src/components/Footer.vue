@@ -11,9 +11,7 @@
     </aside>
     <nav>
       <h6 class="footer-title">Services</h6>
-      <Button>
-        Saiba Mais
-      </Button>
+      <button>Saiba Mais</button>
       <a class="link link-hover">Branding</a>
       <a class="link link-hover">Design</a>
       <a class="link link-hover">Marketing</a>
@@ -36,7 +34,6 @@
 </template>
 
 <script setup>
-import Button from './Button.vue';
 </script>
 
 <style scoped></style>

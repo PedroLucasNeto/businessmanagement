@@ -1,5 +1,5 @@
 <template>
-  <div class="text-sm breadcrumbs">
+  <div class="text-sm breadcrumbs custom-scroll">
     <ul>
       <li v-for="item in items" :key="item.path">
         <RouterLink :to="item.path" class="flex items-center justify-center gap-2" active-class="text-primary">
@@ -12,11 +12,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+// import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const items = [
   { name: 'Gestão', icon: 'fa-solid fa-home', path: '/management' },
+  { name: 'Calendário', icon: 'fa-solid fa-calendar', path: '/management/calendar' },
   { name: 'Orçamentos', icon: 'fa-solid fa-bag-shopping', path: '/management/budget' },
   { name: 'Ensaios', icon: 'fa-solid fa-calendar', path: '/management/booking' },
   { name: 'Clientes', icon: 'fa-solid fa-user', path: '/management/client' },
@@ -29,11 +30,15 @@ const items = [
 ]
 
 const route = useRoute();
-const isActive = computed(() => {
-  console.log('Route', route.fullPath)
-  console.log('items', items[1].path)
-  return items.find(item => item.path === route.fullPath);
-})
+// const isActive = computed(() => {
+//   return items.find(item => item.path === route.fullPath);
+// })
 </script>
 
-<style scoped></style>
+<style>
+.custom-scroll{
+  overflow-x: auto !important;
+}
+
+
+</style>
