@@ -8,15 +8,17 @@
     </div>
 
     <ul class="flex justify-between space-x-4 items-center" v-if="authStore.isAuthenticated">
-
+      <RouterLink to="/" v-if="isAdmin" class="cursor-pointer hover:text-secondary" active-class="text-primary">
+        <fa icon="fa-solid fa-home" />
+      </RouterLink>
+      <RouterLink to="/calendar" v-if="isAdmin" class="cursor-pointer hover:text-secondary" active-class="text-primary">
+        <fa icon="fa-solid fa-calendar" />
+      </RouterLink>
+      <!-- <RouterLink to="/" v-if="isAdmin" class="cursor-pointer hover:text-secondary" active-class="text-primary">
+        <fa icon="fa-solid fa-user" />
+      </RouterLink> -->
       <RouterLink to="/management" v-if="isAdmin" class="cursor-pointer hover:text-secondary"
         active-class="text-primary">
-        <fa icon="fa-solid fa-table-cells-large" />
-      </RouterLink>
-      <RouterLink to="/settings" v-if="isAdmin" class="cursor-pointer hover:text-secondary" active-class="text-primary">
-        <fa icon="fa-solid fa-user" />
-      </RouterLink>
-      <RouterLink to="/settings" v-if="isAdmin" class="cursor-pointer hover:text-secondary" active-class="text-primary">
         <fa icon="fa-solid fa-gear" />
       </RouterLink>
       <ToggleTheme />
@@ -29,7 +31,7 @@
 <script setup>
 import { computed } from 'vue';
 import ToggleTheme from '@/components/ToggleTheme.vue';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 
 const isAdmin = computed(() => true);
 

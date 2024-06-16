@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/pages/home/Home.vue'
 import Login from '@/pages/login/Login.vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/authStore'
 
 const routes = [
   {
@@ -18,6 +18,14 @@ const routes = [
     component: Login
   },
   {
+    path: '/calendar',
+    name: 'calendar',
+    component: () => import('@/pages/calendar/Calendar.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/management',
     name: 'management',
     component: () => import('@/pages/management/Management.vue'),
@@ -25,14 +33,6 @@ const routes = [
       requiresAuth: true
     },
     children: [
-      {
-        path: 'calendar',
-        name: 'calendar',
-        component: () => import('@/pages/management/components/calendar/Calendar.vue'),
-        meta: {
-          requiresAuth: true
-        }
-      },
       {
         path: 'budget',
         name: 'budget',
@@ -66,9 +66,9 @@ const routes = [
         }
       },
       {
-        path: 'product',
-        name: 'product',
-        component: () => import('@/pages/management/components/product/Product.vue'),
+        path: 'addon',
+        name: 'addon',
+        component: () => import('@/pages/management/components/addon/Addon.vue'),
         meta: {
           requiresAuth: true
         }
@@ -108,11 +108,16 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const authStore = useAuthStore()
+
+  authStore.checkAuthentication()
   const isAuthenticated = authStore.isAuthenticated
 
   if (requiresAuth && !isAuthenticated) {
     next({ name: 'login' })
   } else {
+    if (to.name === 'login' && isAuthenticated) {
+      next({ name: 'home' })
+    }
     next()
   }
 })

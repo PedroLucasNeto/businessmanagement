@@ -1,24 +1,31 @@
 <template>
-  <FullCalendar :options="calendarOptions" class="w-full h-screen md:h-full" />
+  <FullCalendar v-if="allEvents.length > 0" :options="calendarOptions" class="w-full h-screen md:h-full" />
+  <Loading v-if="isLoading" />
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, onBeforeMount } from 'vue'
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import bookingService from '@/api/services/bookingService'
 import eventsService from '@/api/services/eventsService'
+import Loading from '@/components/Loading.vue'
+import { useGlobalStore } from '@/stores/globalStore'
+
+const globalStore = useGlobalStore()
 
 const isMobile = ref(window.innerWidth < 768)
+
+const isLoading = ref(false)
 
 const updateIsMobile = () => {
   isMobile.value = window.innerWidth < 768
 }
 
-const bookings = ref([]);
-const events = ref([]);
+const bookings = ref([])
+const events = ref([])
 
 const calendarOptions = computed(() => ({
   plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
@@ -40,7 +47,7 @@ const calendarOptions = computed(() => ({
     week: "Semana",
     day: "Dia",
   },
-  events: allEvents
+  events: allEvents.value
 }))
 
 function handleDateClick (arg) {
@@ -49,7 +56,7 @@ function handleDateClick (arg) {
 
 async function getEvents () {
   const eventsFromDb = await eventsService.getAllEvents()
-  if (!events) return
+  if (!eventsFromDb) return
   events.value = eventsFromDb.map((event) => {
     return {
       ...event
@@ -58,6 +65,8 @@ async function getEvents () {
 }
 
 async function getBookings () {
+
+
   const bookingsFromDb = await bookingService.getAllBookings()
   if (!bookingsFromDb) return
   bookings.value = bookingsFromDb.map((booking) => {
@@ -68,10 +77,12 @@ async function getBookings () {
 }
 
 const allEvents = computed(() => {
-  if (!bookings.value || !events.value) return []
-  const mergedEvents = [...bookings, ...customEvents];
+  isLoading.value = true;
+  if (!bookings.value.length && !events.value.length) return []
 
-  const events = mergedEvents.map((event) => {
+  const mergedEvents = [...bookings.value, ...events.value];
+
+  const formattedEvents = mergedEvents.map((event) => {
     let formattedEvent;
     if (event.hasOwnProperty("photoShootDate")) {
       formattedEvent = {
@@ -79,7 +90,6 @@ const allEvents = computed(() => {
         title: event.client.name,
         date: event.photoShootDate.toString(),
         start: event.photoShootDate.toString(),
-
         extendedProps: {
           eventType: "booking",
           duration: event.pricing.duration,
@@ -89,9 +99,7 @@ const allEvents = computed(() => {
         },
         end: calculateEndDate(event.photoShootDate, event.pricing.duration),
         color: getColorFromPricing(event.pricing.description.toUpperCase()),
-        backgroundColor: getColorFromPricing(
-          event.pricing.description.toUpperCase()
-        ),
+        backgroundColor: getColorFromPricing(event.pricing.description.toUpperCase()),
         textColor: "black",
       };
     } else {
@@ -106,43 +114,46 @@ const allEvents = computed(() => {
       };
     }
     return formattedEvent;
-  })
+  });
 
-  return events;
+  isLoading.value = false;
+  return formattedEvents;
 })
 
 function calculateEndDate (startDate, duration) {
-  const date = startDate.toString().split("T");
-  const endDate = new Date(date[0] + "T" + date[1]);
-  let durationInMilliseconds;
+  const date = startDate.toString().split("T")
+  const endDate = new Date(date[0] + "T" + date[1])
+  let durationInMilliseconds
   if (duration.toString().includes(":")) {
-    const [hours, minutes] = duration.split(":").map(Number);
-    durationInMilliseconds = hours * 60 * 60 * 1000 + minutes * 60 * 1000;
+    const [hours, minutes] = duration.split(":").map(Number)
+    durationInMilliseconds = hours * 60 * 60 * 1000 + minutes * 60 * 1000
   } else {
-    durationInMilliseconds = Number(duration) * 60 * 60 * 1000;
+    durationInMilliseconds = Number(duration) * 60 * 60 * 1000
   }
-  endDate.setTime(endDate.getTime() + durationInMilliseconds);
-  return endDate;
+  endDate.setTime(endDate.getTime() + durationInMilliseconds)
+  return endDate
 }
 
 function getColorFromPricing (description) {
   switch (description.toUpperCase()) {
     case "OURO":
-      return "#FFD700";
+      return "#FFD700"
     case "PRATA":
-      return "#C0C0C0";
+      return "#C0C0C0"
     case "DIAMANTE":
-      return "#B9F2FF";
+      return "#B9F2FF"
     default:
-      return "#FFD700";
+      return "#FFD700"
   }
 }
 
+onBeforeMount(() => {
+  getBookings()
+  getEvents()
+})
+
 onMounted(() => {
   window.addEventListener('resize', updateIsMobile)
-
-  getBookings();
-  getEvents();
 })
 
 onBeforeUnmount(() => {

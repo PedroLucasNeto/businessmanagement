@@ -12,33 +12,22 @@
 </template>
 
 <script setup>
-// import { computed } from 'vue';
-import { useRoute } from 'vue-router';
 
 const items = [
   { name: 'Gestão', icon: 'fa-solid fa-home', path: '/management' },
-  { name: 'Calendário', icon: 'fa-solid fa-calendar', path: '/management/calendar' },
   { name: 'Orçamentos', icon: 'fa-solid fa-bag-shopping', path: '/management/budget' },
   { name: 'Ensaios', icon: 'fa-solid fa-calendar', path: '/management/booking' },
   { name: 'Clientes', icon: 'fa-solid fa-user', path: '/management/client' },
   { name: 'Eventos', icon: 'fa-solid fa-flag', path: '/management/event' },
-  { name: 'Produtos', icon: 'fa-solid fa-box-open', path: '/management/product' },
+  { name: 'Adicionais Do Evento', icon: 'fa-solid fa-plus-circle', path: '/management/addon' },
   { name: 'Lançamentos', icon: 'fa-solid fa-money-bill-transfer', path: '/management/transaction' },
-  { name: 'Categoria', icon: 'fa-solid fa-money-bill-transfer', path: '/management/category' },
-  { name: 'Pacote', icon: 'fa-solid fa-money-bill-transfer', path: '/management/pricing' },
-
+  { name: 'Categoria', icon: 'fa-solid fa-list', path: '/management/category' },
+  { name: 'Pacote', icon: 'fa-solid fa-box-open', path: '/management/pricing' },
 ]
-
-const route = useRoute();
-// const isActive = computed(() => {
-//   return items.find(item => item.path === route.fullPath);
-// })
 </script>
 
 <style>
-.custom-scroll{
+.custom-scroll {
   overflow-x: auto !important;
 }
-
-
 </style>
