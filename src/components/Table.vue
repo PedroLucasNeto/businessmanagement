@@ -1,66 +1,71 @@
 <template>
-  <div class="flex flex-col items-center min-w-92 gap-4 max-w-screen" :class="tableHeight">
-    <div class="overflow-x-auto">
-      <table class="table">
-        <slot name="tableHead">
-          <thead>
-            <tr>
-              <th v-for="(item, index) in tableFields" :key="index">
-                {{ item.label }}
-              </th>
-            </tr>
-          </thead>
-        </slot>
-        <slot name="tableBody">
-          <tbody>
-            <tr class="bg-base-200" v-for="(item, index) in paginatedData" :key="index">
-              <td v-for="(field, key, index) in tableFields" :key="index">
-                <span>{{ processValue(field.type, item[field.value]) }}</span>
-              </td>
-              <td>
-                <button @click="editItem(item)">
-                  <fa class="cursor-pointer p-2" icon="fa-solid fa-pen-to-square" />
-                </button>
-                <button @click="deleteItem(item)">
-                  <fa class="cursor-pointer p-2" icon="fa-solid fa-trash" />
-                </button>
-                <button @click="retrieveItem(item)">
-                  <fa class="cursor-pointer p-2" icon="fa-solid fa-eye" />
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </slot>
-      </table>
+  <div>
+    <div v-if="globalStore.tableBusy">
+      <span class="loading loading-spinner loading-lg text-warning"></span>
     </div>
-
-    <div class="flex justify-between w-full">
-      <div></div>
-
-      <slot name="pagination">
-        <div class="join">
-          <button class="join-item btn focus:text-primary" v-for="page in totalPages" :key="page"
-            @click="goToPage(page)">
-            {{ page }}
-          </button>
-        </div>
-      </slot>
-
-      <div class="flex flex-row items-center gap-4">
-        <label for="perPage">Itens por página:</label>
-        <select id="perPage" class="select select-bordered select-sm max-w-xs" v-model.number="perPage">
-          <option>5</option>
-          <option>15</option>
-          <option>30</option>
-        </select>
+    <div v-else class="flex flex-col items-center min-w-92 gap-4 max-w-full shadow-xl mt-4 p-4 bg-base-100 "
+      :class="tableHeight">
+      <div class="overflow-x-auto w-full">
+        <table class="table">
+          <slot name="tableHead">
+            <thead>
+              <tr>
+                <th v-for="(item, index) in tableFields" :key="index">
+                  {{ item.label }}
+                </th>
+              </tr>
+            </thead>
+          </slot>
+          <slot name="tableBody">
+            <tbody>
+              <tr class="hover:bg-base-300" v-for="(item, index) in paginatedData" :key="index">
+                <td v-for="(field, key, index) in tableFields" :key="index">
+                  <span>{{ processValue(field.type, item[field.value]) }}</span>
+                </td>
+                <td>
+                  <button @click="editItem(item)">
+                    <fa class="cursor-pointer p-2" icon="fa-solid fa-pen-to-square" />
+                  </button>
+                  <button @click="deleteItem(item)">
+                    <fa class="cursor-pointer p-2" icon="fa-solid fa-trash" />
+                  </button>
+                  <button @click="retrieveItem(item)">
+                    <fa class="cursor-pointer p-2" icon="fa-solid fa-eye" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </slot>
+        </table>
       </div>
 
+      <div class="flex flex-col lg:flex-row justify-between w-full items-center ">
+        <slot name="pagination">
+          <div class="join mx-auto ">
+            <button class="join-item btn focus:text-primary" v-for="page in totalPages" :key="page"
+              @click="goToPage(page)">
+              {{ page }}
+            </button>
+          </div>
+        </slot>
+
+        <div class="flex flex-row items-center gap-4">
+          <label for="perPage">Qtd por página:</label>
+          <select id="perPage" class="select select-bordered select-sm max-w-xs" v-model.number="perPage">
+            <option>5</option>
+            <option>15</option>
+            <option>30</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, defineModel, watch } from 'vue'
+import { useGlobalStore } from '@/stores/globalStore';
+const globalStore = useGlobalStore()
 
 const editItem = defineModel('editItem', {
   type: Function
@@ -94,6 +99,7 @@ const currentPage = defineModel('currentPage', {
   required: true
 })
 
+
 const totalPages = computed(() => {
   return Math.ceil(quantity.value / perPage.value)
 })
@@ -123,6 +129,11 @@ function processValue (type, value) {
   if (type === 'money') return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
   if (type === 'hour') return `${value} horas`
   if (type === 'phone') return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`
+  if (type === 'object') {
+    console.log(value)
+
+    return value
+  }
   return value
 }
 </script>

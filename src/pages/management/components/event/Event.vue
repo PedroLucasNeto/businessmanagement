@@ -6,6 +6,9 @@
 import Table from '@/components/Table.vue';
 import eventsService from '@/api/services/eventsService'
 import { onMounted, ref } from 'vue';
+import { useGlobalStore } from '@/stores/globalStore';
+
+const globalStore = useGlobalStore();
 
 const events = ref([]);
 const fields = [
@@ -16,13 +19,20 @@ const fields = [
 ]
 
 async function getEvents () {
-    const eventsFromDb = await eventsService.getAllEvents();
-    if (!eventsFromDb) return;
-    events.value = eventsFromDb.map((client) => {
-        return {
-            ...client
-        }
-    })
+    try {
+        globalStore.setTableBusy(true);
+        const eventsFromDb = await eventsService.getAllEvents();
+        if (!eventsFromDb) return;
+        events.value = eventsFromDb.map((client) => {
+            return {
+                ...client
+            }
+        })
+    } catch (error) {
+
+    } finally {
+        globalStore.setTableBusy(false);
+    }
 }
 
 onMounted(() => {

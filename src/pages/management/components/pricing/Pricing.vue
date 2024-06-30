@@ -7,6 +7,10 @@ import Table from '@/components/Table.vue';
 import pricingService from '@/api/services/pricingService'
 import { onMounted, ref } from 'vue';
 
+import { useGlobalStore } from '@/stores/globalStore';
+
+const globalStore = useGlobalStore();
+
 const pricings = ref([]);
 
 const fields = [
@@ -17,13 +21,21 @@ const fields = [
 ]
 
 async function getPricings () {
-    const pricingsFromDb = await pricingService.getAllPricings();
-    if (!pricingsFromDb) return;
-    pricings.value = pricingsFromDb.map((client) => {
-        return {
-            ...client
-        }
-    })
+    try {
+        globalStore.setTableBusy(true);
+        const pricingsFromDb = await pricingService.getAllPricings();
+        if (!pricingsFromDb) return;
+        pricings.value = pricingsFromDb.map((client) => {
+            return {
+                ...client
+            }
+        })
+    } catch (error) {
+
+    } finally {
+        globalStore.setTableBusy(false);
+
+    }
 }
 
 onMounted(() => {

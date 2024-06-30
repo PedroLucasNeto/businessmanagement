@@ -7,7 +7,12 @@ import Table from '@/components/Table.vue';
 import transactionService from '@/api/services/transactionService'
 import { onMounted, ref } from 'vue';
 
+import { useGlobalStore } from '@/stores/globalStore';
+
+const globalStore = useGlobalStore();
+
 const transactions = ref([]);
+
 const fields = [
     { label: 'ID', value: 'id', type: 'number' },
     { label: 'Valor', value: 'amount', type: 'money' },
@@ -17,13 +22,21 @@ const fields = [
 ]
 
 async function getTransactions () {
-    const transactionsFromDb = await transactionService.getAllTransactions();
-    if (!transactionsFromDb) return;
-    transactions.value = transactionsFromDb.map((transaction) => {
-        return {
-            ...transaction
-        }
-    })
+
+    try {
+        globalStore.setTableBusy(true);
+        const transactionsFromDb = await transactionService.getAllTransactions();
+        if (!transactionsFromDb) return;
+        transactions.value = transactionsFromDb.map((transaction) => {
+            return {
+                ...transaction
+            }
+        })
+    } catch (error) {
+
+    } finally {
+        globalStore.setTableBusy(false);
+    }
 }
 
 

@@ -6,6 +6,8 @@
 import Table from '@/components/Table.vue';
 import clientService from '@/api/services/clientService'
 import { onMounted, ref } from 'vue';
+import { useGlobalStore } from '@/stores/globalStore';
+const globalStore = useGlobalStore();
 
 const clients = ref([]);
 
@@ -20,13 +22,20 @@ const fields = [
 ]
 
 async function getClients () {
-    const clientsFromDb = await clientService.getAllClients();
-    if (!clientsFromDb) return;
-    clients.value = clientsFromDb.map((booking) => {
-        return {
-            ...booking
-        }
-    })
+    try {
+        globalStore.setTableBusy(true);
+        const clientsFromDb = await clientService.getAllClients();
+        if (!clientsFromDb) return;
+        clients.value = clientsFromDb.map((booking) => {
+            return {
+                ...booking
+            }
+        })
+    } catch (error) {
+
+    } finally {
+        globalStore.setTableBusy(false);
+    }
 }
 
 onMounted(() => {

@@ -7,6 +7,10 @@ import Table from '@/components/Table.vue';
 import categoryService from '@/api/services/categoryService'
 import { onMounted, ref } from 'vue';
 
+import { useGlobalStore } from '@/stores/globalStore';
+
+const globalStore = useGlobalStore();
+
 const categories = ref([]);
 // { "description": "Pessoal", "id": 1, "status": true }
 const fields = [
@@ -15,13 +19,21 @@ const fields = [
 ]
 
 async function getCategories () {
-  const categoriesFromDb = await categoryService.getAllCategories();
-  if (!categoriesFromDb) return;
-  categories.value = categoriesFromDb.map((budget) => {
-    return {
-      ...budget
-    }
-  })
+  try {
+    globalStore.setTableBusy(true);
+    const categoriesFromDb = await categoryService.getAllCategories();
+    if (!categoriesFromDb) return;
+    categories.value = categoriesFromDb.map((budget) => {
+      return {
+        ...budget
+      }
+    })
+  } catch (error) {
+
+  } finally {
+    globalStore.setTableBusy(false);
+
+  }
 }
 
 onMounted(() => {

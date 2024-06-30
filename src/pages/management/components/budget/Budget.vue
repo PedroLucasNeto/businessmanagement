@@ -7,6 +7,10 @@ import Table from '@/components/Table.vue';
 import budgetService from '@/api/services/budgetService'
 import { onMounted, ref } from 'vue';
 
+import { useGlobalStore } from '@/stores/globalStore';
+
+const globalStore = useGlobalStore();
+
 const budgets = ref([]);
 const fields = [
     { label: 'ID', value: 'id', type: 'number' },
@@ -17,13 +21,21 @@ const fields = [
 ]
 
 async function getBudgets () {
-    const budgetsFromDb = await budgetService.getAllBudgets();
-    if (!budgetsFromDb) return;
-    budgets.value = budgetsFromDb.map((budget) => {
-        return {
-            ...budget
-        }
-    })
+    try {
+        globalStore.setTableBusy(true);
+        const budgetsFromDb = await budgetService.getAllBudgets();
+        if (!budgetsFromDb) return;
+        budgets.value = budgetsFromDb.map((budget) => {
+            return {
+                ...budget
+            }
+        })
+    } catch (error) {
+
+    } finally {
+        globalStore.setTableBusy(false);
+
+    }
 }
 
 onMounted(() => {
