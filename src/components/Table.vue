@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="globalStore.tableBusy">
-      <span class="loading loading-spinner loading-lg text-warning"></span>
+      <span class="loading loading-spinner loading-lg text-success"></span>
     </div>
     <div v-else class="flex flex-col items-center min-w-92 gap-4 max-w-full shadow-xl mt-4 p-4 bg-base-100 "
       :class="tableHeight">

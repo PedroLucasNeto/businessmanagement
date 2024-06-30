@@ -8,17 +8,25 @@ export const useAuthStore = defineStore('authStore', () => {
   const router = useRouter()
   const isAuthenticated = ref(false)
   const isLoading = ref(false)
+  const currentUser = ref(null)
 
   function setIsAuthenticated(newValue) {
     isAuthenticated.value = newValue
   }
 
   async function checkAuthentication() {
-    const alreadyLoggedIn = sessionStorage.getItem('token')
-    if (alreadyLoggedIn) {
+    const parsedToken = JSON.parse(sessionStorage.getItem('token'))
+    if (parsedToken) {
+      setCurrentUser(parsedToken)
       setIsAuthenticated(true)
-      return
+    } else {
+      setIsAuthenticated(false)
+      setCurrentUser(null)
     }
+  }
+
+  function setCurrentUser(newValue) {
+    currentUser.value = newValue
   }
 
   async function login(user) {
@@ -26,6 +34,7 @@ export const useAuthStore = defineStore('authStore', () => {
       isLoading.value = true
       const { data } = await loginApi.post(`/users/login`, user)
       const token = jwtDecode(data.token)
+      setCurrentUser(token)
       sessionStorage.setItem('rawToken', data.token.toString())
       sessionStorage.setItem('token', JSON.stringify(token))
       sessionStorage.setItem('username', token.preferred_username.split(' ')[0])
@@ -55,6 +64,8 @@ export const useAuthStore = defineStore('authStore', () => {
     login,
     loggout,
     isLoading,
-    checkAuthentication
+    checkAuthentication,
+    setCurrentUser,
+    currentUser
   }
 })

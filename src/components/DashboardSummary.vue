@@ -48,24 +48,24 @@ const newClients = ref(0);
 
 const router = useRouter();
 
-const fetchDashboardData = async () => {
-  // Fetch the data from your API
-  // Example:
-  const data = await fetch('/api/dashboard-summary').then(res => res.json());
+// const fetchDashboardData = async () => {
+//   // Fetch the data from your API
+//   // Example:
+//   const data = await fetch('/api/dashboard-summary').then(res => res.json());
 
-  upcomingBookings.value = data.upcomingBookings;
-  nextBookingDate.value = data.nextBookingDate;
-  monthlyRevenue.value = data.monthlyRevenue;
-  totalRevenue.value = data.totalRevenue;
-  newClients.value = data.newClients;
-};
+//   upcomingBookings.value = data.upcomingBookings;
+//   nextBookingDate.value = data.nextBookingDate;
+//   monthlyRevenue.value = data.monthlyRevenue;
+//   totalRevenue.value = data.totalRevenue;
+//   newClients.value = data.newClients;
+// };
 
 const navigateTo = (route) => {
   router.push(`/${route}`);
 };
 
 onMounted(() => {
-  fetchDashboardData();
+  // fetchDashboardData();
 });
 </script>
 

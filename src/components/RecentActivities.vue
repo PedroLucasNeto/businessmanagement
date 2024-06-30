@@ -22,12 +22,12 @@ import { ref, onMounted } from 'vue';
 
 const recentActivities = ref([]);
 
-const fetchRecentActivities = async () => {
-  // Fetch the recent activities from your API
-  // Example:
-  const data = await fetch('/api/recent-activities').then(res => res.json());
-  recentActivities.value = data;
-};
+// const fetchRecentActivities = async () => {
+//   // Fetch the recent activities from your API
+//   // Example:
+//   const data = await fetch('/api/recent-activities').then(res => res.json());
+//   recentActivities.value = data;
+// };
 
 const formatDate = (date) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -35,7 +35,7 @@ const formatDate = (date) => {
 };
 
 onMounted(() => {
-  fetchRecentActivities();
+  // fetchRecentActivities();
 });
 </script>
 

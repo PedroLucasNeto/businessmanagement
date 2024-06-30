@@ -1,6 +1,9 @@
 <template>
-  <FullCalendar v-if="allEvents.length > 0" :options="calendarOptions" class="w-full h-screen md:h-full" />
-  <Loading v-if="isLoading" />
+  <div class="flex items-center justify-center">
+
+    <FullCalendar v-if="allEvents.length > 0" :options="calendarOptions" class="w-8/12" />
+    <Loading v-if="isLoading" />
+  </div>
 </template>
 
 <script setup>
@@ -47,6 +50,7 @@ const calendarOptions = computed(() => ({
     week: "Semana",
     day: "Dia",
   },
+  height: "auto",
   events: allEvents.value
 }))
 
