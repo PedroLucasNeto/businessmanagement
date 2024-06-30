@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex justify-between w-full p-4 items-center">
+  <nav class="flex justify-between w-full p-4 items-center bg-neutral text-base-200">
     <div>
       <RouterLink :to="authStore.isAuthenticated ? '/' : '/login'" class="hover:text-secondary"
         active-class="text-primary">
