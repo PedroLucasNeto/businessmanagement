@@ -5,11 +5,13 @@
       <RouterView />
     </div>
   </Transition>
+  <Sidebar />
   <Footer />
 </template>
 <script setup>
 import Footer from './components/Footer.vue';
 import Header from './components/Header.vue'
+import Sidebar from './components/Sidebar.vue';
 </script>
 
 <style>

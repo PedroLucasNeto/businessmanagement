@@ -1,13 +1,9 @@
 <template>
-  <nav class="flex justify-between w-full p-4 items-center bg-neutral text-base-200">
-    <div>
-      <RouterLink :to="authStore.isAuthenticated ? '/' : '/login'" class="hover:text-secondary"
-        active-class="text-primary">
-        <fa :icon="'fa-solid fa-home'"></fa>
-      </RouterLink>
-    </div>
+  <nav class="flex justify-between w-full p-4 items-center bg-neutral text-white">
+    <fa :icon="'fa-solid fa-bars'" class=" cursor-pointer" :class="checkMenuOpen()" @click="toggleMenu()">
+    </fa>
 
-    <ul class="flex justify-between space-x-4 items-center" v-if="authStore.isAuthenticated">
+    <ul class=" flex justify-between space-x-4 items-center" v-if="authStore.isAuthenticated">
       <RouterLink to="/" v-if="isAdmin" class="cursor-pointer hover:text-secondary" active-class="text-primary">
         <fa icon="fa-solid fa-home" />
       </RouterLink>
@@ -32,10 +28,23 @@
 import { computed } from 'vue';
 import ToggleTheme from '@/components/ToggleTheme.vue';
 import { useAuthStore } from '@/stores/authStore';
+import { useGlobalStore } from '@/stores/globalStore';
 
 const isAdmin = computed(() => true);
 
 const authStore = useAuthStore();
+const globalStore = useGlobalStore();
+
+function toggleMenu () {
+  globalStore.toggleMenu();
+}
+
+function checkMenuOpen () {
+  if (globalStore.menuOpen) {
+    return 'text-secondary'
+  }
+  return ''
+}
 
 </script>
 
