@@ -1,10 +1,6 @@
 <template>
   <div class="drawer z-50">
     <input id="sidebar" type="checkbox" class="drawer-toggle" v-model="globalStore.menuOpen" />
-    <div class="drawer-content">
-      <!-- Page content here -->
-      <label for="sidebar" class="drawer-button btn btn-primary">Open drawer</label>
-    </div>
     <div class="drawer-side">
       <label for="sidebar" aria-label="close sidebar" class="drawer-overlay"></label>
       <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">

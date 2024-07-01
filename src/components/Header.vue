@@ -15,7 +15,7 @@
       </RouterLink> -->
       <RouterLink to="/management" v-if="isAdmin" class="cursor-pointer hover:text-secondary"
         active-class="text-primary">
-        <fa icon="fa-solid fa-gear" />
+        <fa icon="fa-solid fa-bars-progress" />
       </RouterLink>
       <ToggleTheme />
       <label @click="authStore.loggout()" class="cursor-pointer hover:text-primary">Sair</label>

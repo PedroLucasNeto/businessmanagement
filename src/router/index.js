@@ -47,6 +47,14 @@ const routes = [
         }
       },
       {
+        path: 'welcome',
+        name: 'welcome',
+        component: () => import('@/pages/management/components/welcome/Welcome.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: 'booking',
         name: 'booking',
         component: () => import('@/pages/management/components/booking/Booking.vue'),
