@@ -8,16 +8,23 @@
         </RouterLink>
       </li>
     </ul>
+    <a v-show="false">
+      V-SHOW
+    </a>
+    <a v-if="false">
+      V-IF
+    </a>
   </div>
 </template>
 
 <script setup>
-import { componentsList } from '@/utils/ComponentsList';
+import { componentsList } from '@/utils/componentsList';
 import { computed } from 'vue';
 
 const displayCrumbs = computed(() => {
   return componentsList.filter(item => item.category !== 'Início');
 });
+
 </script>
 
 <style>

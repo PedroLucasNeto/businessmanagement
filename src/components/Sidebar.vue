@@ -24,7 +24,7 @@
 
 <script setup>
 import { useGlobalStore } from '@/stores/globalStore';
-import { componentsList } from '@/utils/ComponentsList';
+import { componentsList } from '@/utils/componentsList';
 
 const globalStore = useGlobalStore();
 

@@ -1,12 +1,11 @@
 <template>
-  <!-- create a retrieve visualization for client data, it is for a specific client no all of them -->
   <div class="flex flex-col items-center justify-center h-full w-full">
     <span
       v-if="globalStore.isLoading"
       class="loading loading-spinner loading-lg text-success"
     ></span>
     <div v-else class="flex flex-col items-center justify-center gap-4 w-full">
-      <h1 class="text-2xl font-bold">Dados do Cliente</h1>
+      <h1 class="text-2xl font-bold">Dados do Budgete</h1>
       <div
         class="w-full mt-4 bg-white shadow-md rounded-lg overflow-hidden max-w-2xl border border-gray-200"
       >
@@ -18,7 +17,7 @@
                 type="text"
                 id="name"
                 class="input input-bordered"
-                v-model="client.name"
+                v-model="budget.name"
                 :disabled="!isEditable"
               />
             </div>
@@ -28,7 +27,7 @@
                 type="email"
                 id="email"
                 class="input input-bordered"
-                v-model="client.email"
+                v-model="budget.email"
                 :disabled="!isEditable"
               />
             </div>
@@ -38,7 +37,7 @@
                 type="tel"
                 id="phone"
                 class="input input-bordered"
-                v-model="client.phone"
+                v-model="budget.phone"
                 :disabled="!isEditable"
               />
             </div>
@@ -48,7 +47,7 @@
                 type="date"
                 id="dateOfBirth"
                 class="input input-bordered"
-                v-model="client.dateOfBirth"
+                v-model="budget.dateOfBirth"
                 :disabled="!isEditable"
               />
             </div>
@@ -58,7 +57,7 @@
                 type="text"
                 id="occupation"
                 class="input input-bordered"
-                v-model="client.occupation"
+                v-model="budget.occupation"
                 :disabled="!isEditable"
               />
             </div>
@@ -68,7 +67,7 @@
                 type="text"
                 id="instagram"
                 class="input input-bordered"
-                v-model="client.instagram"
+                v-model="budget.instagram"
                 :disabled="!isEditable"
               />
             </div>
@@ -88,23 +87,21 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import clientService from '@/api/services/clientService'
+import budgetService from '@/api/services/budgetService'
 import { useGlobalStore } from '@/stores/globalStore'
 const route = useRoute()
 const id = route.params.id
 
-const client = ref({})
-const originalClient = ref({})
+const budget = ref({})
 const isEditable = ref(false)
 const globalStore = useGlobalStore()
 
-async function getClient() {
+async function getBudget() {
   globalStore.isLoading = true
   try {
-    const clientFromDb = await clientService.getClientById(id)
-    if (!clientFromDb) return
-    client.value = clientFromDb
-    originalClient.value = clientFromDb
+    const budgetFromDb = await budgetService.getBudgetById(id)
+    if (!budgetFromDb) return
+    budget.value = budgetFromDb
   } catch (error) {
     console.log(error)
   } finally {
@@ -114,8 +111,8 @@ async function getClient() {
 
 async function save() {
   try {
-    await clientService.updateClient(client.value)
-    getClient()
+    await budgetService.updateBudget(budget.value)
+    getBudget()
   } catch (error) {
     console.log(error)
   }
@@ -124,15 +121,12 @@ async function save() {
 
 const toggleEdit = () => {
   if (isEditable.value) {
-    console.log(originalClient.value)
-    Object.keys(originalClient.value).forEach((key) => {
-      client.value[key] = originalClient.value[key]
-    })
+    getBudget()
   }
   isEditable.value = !isEditable.value
 }
 
 onMounted(() => {
-  getClient()
+  getBudget()
 })
 </script>
