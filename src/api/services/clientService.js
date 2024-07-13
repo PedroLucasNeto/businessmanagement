@@ -17,6 +17,16 @@ async function getAllClients() {
   }
 }
 
+
+async function getClientById(id) {
+  try {
+    const { data } = await api.get(`/clients/${id}`)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 async function getAllClientsActivated() {
   try {
     const { data } = await api.get('/clients/activated')
@@ -44,9 +54,9 @@ async function getById(id) {
   }
 }
 
-async function updateClient(id, client) {
+async function updateClient(client) {
   try {
-    // Lógica para atualizar o cliente
+    await api.put(`/clients`, client)
   } catch (error) {
     console.log(error)
   }
@@ -67,7 +77,8 @@ const clientService = {
   updateClient,
   deleteClientById,
   getAllClientsDeactivated,
-  getAllClientsActivated
+  getAllClientsActivated,
+  getClientById
 }
 
 export default clientService

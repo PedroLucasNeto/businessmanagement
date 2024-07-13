@@ -24,13 +24,13 @@
                 </td>
                 <td>
                   <button @click="editItem(item)">
-                    <fa class="cursor-pointer p-2" icon="fa-solid fa-pen-to-square" />
+                    <fa class="cursor-pointer p-2" icon="fa-solid fa-pen-to-square" :class="tableIconColor.edit" />
                   </button>
                   <button @click="deleteItem(item)">
-                    <fa class="cursor-pointer p-2" icon="fa-solid fa-trash" />
+                    <fa class="cursor-pointer p-2" icon="fa-solid fa-trash"  :class="tableIconColor.delete"/>
                   </button>
                   <button @click="retrieveItem(item)">
-                    <fa class="cursor-pointer p-2" icon="fa-solid fa-eye" />
+                    <fa class="cursor-pointer p-2" icon="fa-solid fa-eye"  :class="tableIconColor.retrieve"/>
                   </button>
                 </td>
               </tr>
@@ -65,6 +65,10 @@
 <script setup>
 import { ref, computed, defineModel, watch } from 'vue'
 import { useGlobalStore } from '@/stores/globalStore';
+import { useRouter } from 'vue-router';
+import {processValue} from '@/utils/processValue'
+
+const router = useRouter()
 const globalStore = useGlobalStore()
 
 const editItem = defineModel('editItem', {
@@ -73,9 +77,11 @@ const editItem = defineModel('editItem', {
 const deleteItem = defineModel('deleteItem', {
   type: Function
 })
-const retrieveItem = defineModel('retrieveItem', {
-  type: Function
-})
+
+function retrieveItem (item){
+  const path = `${router.currentRoute.value.path}/retrieve/${item.id}`
+  router.push({ path })
+}
 
 const tableData = defineModel('tableData', {
   type: Array,
@@ -122,19 +128,12 @@ watch(perPage, () => {
   currentPage.value = 1
 })
 
-function processValue (type, value) {
-  if (!value || !type) return ''
-  if (type === 'date') return new Date(value).toLocaleDateString()
-  if (type === 'dateTime') return new Date(value).toLocaleString()
-  if (type === 'money') return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
-  if (type === 'hour') return `${value} horas`
-  if (type === 'phone') return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`
-  if (type === 'object') {
-    console.log(value)
 
-    return value
-  }
-  return value
+
+const tableIconColor = {
+  delete: 'text-red-500',
+  edit: 'text-blue-500',
+  retrieve: 'text-green-500'
 }
 </script>
 

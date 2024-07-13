@@ -71,6 +71,14 @@ const routes = [
         }
       },
       {
+        path: 'client/retrieve/:id',
+        name: 'retrieveClient',
+        component: () => import('@/pages/management/components/client/RetrieveClient.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: 'event',
         name: 'event',
         component: () => import('@/pages/management/components/event/Event.vue'),
