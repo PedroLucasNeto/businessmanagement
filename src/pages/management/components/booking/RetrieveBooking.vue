@@ -1,76 +1,59 @@
 <template>
-  <!-- create a retrieve visualization for client data, it is for a specific client no all of them -->
+  <!-- create a retrieve visualization for booking data, it is for a specific booking no all of them -->
+  {{ booking.client}}
   <div class="flex flex-col items-center justify-center h-full w-full">
     <span
       v-if="globalStore.isLoading"
       class="loading loading-spinner loading-lg text-success"
     ></span>
     <div v-else class="flex flex-col items-center justify-center gap-4 w-full">
-      <h1 class="text-2xl font-bold">Dados do Cliente</h1>
+      <h1 class="text-2xl font-bold">Dados do Ensaio  </h1>
       <div
         class="w-full mt-4 bg-white shadow-md rounded-lg overflow-hidden max-w-2xl border border-gray-200"
       >
         <div class="w-full p-4">
+        
           <div class="flex flex-col gap-4">
             <div class="flex flex-col gap-2">
-              <label for="name">Nome</label>
+              <label for="photoShootDate">Data do Ensaio</label>
               <input
-                type="text"
-                id="name"
+                type="datetime-local"
+                id="photoShootDate"
                 class="input input-bordered"
-                v-model="client.name"
+                v-model="booking.photoShootDate"
                 :disabled="!isEditable"
               />
             </div>
             <div class="flex flex-col gap-2">
-              <label for="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                class="input input-bordered"
-                v-model="client.email"
-                :disabled="!isEditable"
-              />
-            </div>
-            <div class="flex flex-col gap-2">
-              <label for="phone">Telefone</label>
-              <input
-                type="tel"
-                id="phone"
-                class="input input-bordered"
-                v-model="client.phone"
-                :disabled="!isEditable"
-              />
-            </div>
-            <div class="flex flex-col gap-2">
-              <label for="dateOfBirth">Data de Nascimento</label>
+              <label for="bookedDate">Data de Agendamento</label>
               <input
                 type="date"
-                id="dateOfBirth"
+                id="bookedDate"
                 class="input input-bordered"
-                v-model="client.dateOfBirth"
+                v-model="booking.bookedDate"
+                disabled
+              />
+            </div>
+      
+           
+            <div class="flex flex-col gap-2">
+              <label for="totalPrice">Preço Total</label>
+              <input
+                type="number"
+                id="totalPrice"
+                class="input input-bordered"
+                v-model="booking.totalPrice"
                 :disabled="!isEditable"
               />
             </div>
             <div class="flex flex-col gap-2">
-              <label for="occupation">Ocupação</label>
-              <input
-                type="text"
-                id="occupation"
-                class="input input-bordered"
-                v-model="client.occupation"
+              <label for="notes">Observações</label>
+              <textarea
+                id="notes"
+                class="textarea textarea-bordered"
+                v-model="booking.notes"
                 :disabled="!isEditable"
-              />
-            </div>
-            <div class="flex flex-col gap-2">
-              <label for="instagram">Instagram</label>
-              <input
-                type="text"
-                id="instagram"
-                class="input input-bordered"
-                v-model="client.instagram"
-                :disabled="!isEditable"
-              />
+              ></textarea>
             </div>
           </div>
         </div>
@@ -87,26 +70,26 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
-import clientService from '@/api/services/clientService'
+import bookingService from '@/api/services/bookingService'
 import { useGlobalStore } from '@/stores/globalStore'
 import router from '@/router';
 const route = useRoute()
 const id = route.params.id
 
-const client = ref({})
-const originalClient = ref({})
+const booking = ref({})
+const originalBooking = ref({})
 const isEditable = ref(false)
 const globalStore = useGlobalStore()
 
-async function getClient() {
+async function getBooking() {
   globalStore.isLoading = true
   try {
-    const clientFromDb = await clientService.getClientById(id)
-    if (!clientFromDb) return
-    client.value = clientFromDb
-    originalClient.value = clientFromDb
+    const bookingFromDb = await bookingService.getBookingById(id)
+    if (!bookingFromDb) return
+    booking.value = bookingFromDb
+    originalBooking.value = bookingFromDb
   } catch (error) {
     console.log(error)
   } finally {
@@ -116,8 +99,8 @@ async function getClient() {
 
 async function save() {
   try {
-    await clientService.updateClient(client.value)
-    getClient()
+    await bookingService.updateBooking(booking.value)
+    getBooking()
   } catch (error) {
     console.log(error)
   }
@@ -125,20 +108,20 @@ async function save() {
 }
 
 const toggleEdit = () => {
-  if (isEditable.value) {
-    console.log(originalClient.value)
-    Object.keys(originalClient.value).forEach((key) => {
-      client.value[key] = originalClient.value[key]
-    })
-  }
-  isEditable.value = !isEditable.value
-}
+      if (isEditable.value) {
+        const clonedBooking = structuredClone(toRaw(originalBooking.value))
+
+   booking.value = {...clonedBooking}
+   console.log(booking.value)
+      }
+      isEditable.value = !isEditable.value
+    }
 
 function goBack() {
   router.go(-1)
 }
 
 onMounted(() => {
-  getClient()
+  getBooking()
 })
 </script>

@@ -23,9 +23,6 @@
                   <span>{{ processValue(field.type, item[field.value]) }}</span>
                 </td>
                 <td>
-                  <button @click="editItem(item)">
-                    <fa class="cursor-pointer p-2" icon="fa-solid fa-pen-to-square" :class="tableIconColor.edit" />
-                  </button>
                   <button @click="deleteItem(item)">
                     <fa class="cursor-pointer p-2" icon="fa-solid fa-trash"  :class="tableIconColor.delete"/>
                   </button>

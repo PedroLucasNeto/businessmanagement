@@ -27,7 +27,7 @@ async function getAllBookingsDeactivated() {
   }
 }
 
-async function getById(id) {
+async function getBookingById(id) {
   try {
     const { data } = await api.get(`/bookings/${id}`);
     return data;
@@ -76,7 +76,7 @@ const bookingService = {
   // completePayment,
   createBooking,
   getAllBookings,
-  getById,
+  getBookingById,
   updateBooking,
   deleteBookingById,
   updateBookingDate,

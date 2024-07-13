@@ -63,6 +63,14 @@ const routes = [
         }
       },
       {
+        path: 'booking/retrieve/:id',
+        name: 'retrieveBooking',
+        component: () => import('@/pages/management/components/booking/RetrieveBooking.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: 'client',
         name: 'client',
         component: () => import('@/pages/management/components/client/Client.vue'),

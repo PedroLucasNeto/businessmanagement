@@ -1,4 +1,5 @@
 <template>
+  <!-- create a retrieve visualization for budget data, it is for a specific budget no all of them -->
   <div class="flex flex-col items-center justify-center h-full w-full">
     <span
       v-if="globalStore.isLoading"
@@ -75,8 +76,9 @@
         </div>
       </div>
       <div class="flex justify-center items-center gap-4">
+        <button class="btn btn-primary text-white" @click="goBack">Voltar</button>
         <button v-show="isEditable" class="btn btn-success text-white" @click="save">Salvar</button>
-        <button class="btn btn-primary" @click="toggleEdit">
+        <button class="btn text-white" :class="isEditable ? 'btn-warning' : 'btn-success'" @click="toggleEdit">
           {{ isEditable ? 'Cancelar' : 'Editar' }}
         </button>
       </div>
@@ -89,10 +91,12 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import budgetService from '@/api/services/budgetService'
 import { useGlobalStore } from '@/stores/globalStore'
+import router from '@/router';
 const route = useRoute()
 const id = route.params.id
 
 const budget = ref({})
+const originalBudget = ref({})
 const isEditable = ref(false)
 const globalStore = useGlobalStore()
 
@@ -102,6 +106,7 @@ async function getBudget() {
     const budgetFromDb = await budgetService.getBudgetById(id)
     if (!budgetFromDb) return
     budget.value = budgetFromDb
+    originalBudget.value = budgetFromDb
   } catch (error) {
     console.log(error)
   } finally {
@@ -121,9 +126,16 @@ async function save() {
 
 const toggleEdit = () => {
   if (isEditable.value) {
-    getBudget()
+    console.log(originalBudget.value)
+    Object.keys(originalBudget.value).forEach((key) => {
+      budget.value[key] = originalBudget.value[key]
+    })
   }
   isEditable.value = !isEditable.value
+}
+
+function goBack() {
+  router.go(-1)
 }
 
 onMounted(() => {
