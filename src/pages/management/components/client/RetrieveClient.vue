@@ -78,7 +78,11 @@
       <div class="flex justify-center items-center gap-4">
         <button class="btn btn-primary text-white" @click="goBack">Voltar</button>
         <button v-show="isEditable" class="btn btn-success text-white" @click="save">Salvar</button>
-        <button class="btn text-white" :class="isEditable ? 'btn-warning' : 'btn-success'" @click="toggleEdit">
+        <button
+          class="btn text-white"
+          :class="isEditable ? 'btn-error' : 'btn-success'"
+          @click="toggleEdit"
+        >
           {{ isEditable ? 'Cancelar' : 'Editar' }}
         </button>
       </div>
@@ -91,12 +95,11 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import clientService from '@/api/services/clientService'
 import { useGlobalStore } from '@/stores/globalStore'
-import router from '@/router';
+import router from '@/router'
 const route = useRoute()
 const id = route.params.id
 
 const client = ref({})
-const originalClient = ref({})
 const isEditable = ref(false)
 const globalStore = useGlobalStore()
 
@@ -106,7 +109,6 @@ async function getClient() {
     const clientFromDb = await clientService.getClientById(id)
     if (!clientFromDb) return
     client.value = clientFromDb
-    originalClient.value = clientFromDb
   } catch (error) {
     console.log(error)
   } finally {
@@ -126,10 +128,7 @@ async function save() {
 
 const toggleEdit = () => {
   if (isEditable.value) {
-    console.log(originalClient.value)
-    Object.keys(originalClient.value).forEach((key) => {
-      client.value[key] = originalClient.value[key]
-    })
+    getClient()
   }
   isEditable.value = !isEditable.value
 }

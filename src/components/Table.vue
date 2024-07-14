@@ -3,8 +3,11 @@
     <div v-if="globalStore.tableBusy">
       <span class="loading loading-spinner loading-lg text-success"></span>
     </div>
-    <div v-else class="flex flex-col items-center min-w-92 gap-4 max-w-full shadow-xl mt-4 p-4 bg-base-100 "
-      :class="tableHeight">
+    <div
+      v-else
+      class="flex flex-col items-center min-w-92 gap-4 max-w-full shadow-xl mt-4 p-4 bg-base-100"
+      :class="tableHeight"
+    >
       <div class="overflow-x-auto w-full">
         <table class="table">
           <slot name="tableHead">
@@ -18,16 +21,35 @@
           </slot>
           <slot name="tableBody">
             <tbody>
-              <tr class="hover:bg-base-300" v-for="(item, index) in paginatedData" :key="index">
+              <tr
+                class="hover:bg-base-300 cursor-default"
+                v-for="(item, index) in paginatedData"
+                :key="index"
+              >
                 <td v-for="(field, key, index) in tableFields" :key="index">
                   <span>{{ processValue(field.type, item[field.value]) }}</span>
                 </td>
                 <td>
                   <button @click="deleteItem(item)">
-                    <fa class="cursor-pointer p-2" icon="fa-solid fa-trash"  :class="tableIconColor.delete"/>
+                    <fa
+                      class="cursor-pointer p-2"
+                      icon="fa-solid fa-trash"
+                      :class="tableIconColor.delete"
+                    />
                   </button>
                   <button @click="retrieveItem(item)">
-                    <fa class="cursor-pointer p-2" icon="fa-solid fa-eye"  :class="tableIconColor.retrieve"/>
+                    <fa
+                      class="cursor-pointer p-2"
+                      icon="fa-solid fa-edit"
+                      :class="tableIconColor.edit"
+                    />
+                  </button>
+                  <button @click="retrieveItem(item)">
+                    <fa
+                      class="cursor-pointer p-2"
+                      icon="fa-solid fa-eye"
+                      :class="tableIconColor.retrieve"
+                    />
                   </button>
                 </td>
               </tr>
@@ -36,11 +58,15 @@
         </table>
       </div>
 
-      <div class="flex flex-col lg:flex-row justify-between w-full items-center ">
+      <div class="flex flex-col lg:flex-row justify-between w-full items-center">
         <slot name="pagination">
-          <div class="join mx-auto ">
-            <button class="join-item btn focus:text-primary" v-for="page in totalPages" :key="page"
-              @click="goToPage(page)">
+          <div class="join mx-auto">
+            <button
+              class="join-item btn focus:text-primary"
+              v-for="page in totalPages"
+              :key="page"
+              @click="goToPage(page)"
+            >
               {{ page }}
             </button>
           </div>
@@ -48,7 +74,11 @@
 
         <div class="flex flex-row items-center gap-4">
           <label for="perPage">Qtd por página:</label>
-          <select id="perPage" class="select select-bordered select-sm max-w-xs" v-model.number="perPage">
+          <select
+            id="perPage"
+            class="select select-bordered select-sm max-w-xs"
+            v-model.number="perPage"
+          >
             <option>5</option>
             <option>15</option>
             <option>30</option>
@@ -61,21 +91,18 @@
 
 <script setup>
 import { computed, defineModel, watch } from 'vue'
-import { useGlobalStore } from '@/stores/globalStore';
-import { useRouter } from 'vue-router';
-import {processValue} from '@/utils/utilMethods'
+import { useGlobalStore } from '@/stores/globalStore'
+import { useRouter } from 'vue-router'
+import { processValue } from '@/utils/utilMethods'
 
 const router = useRouter()
 const globalStore = useGlobalStore()
 
-const editItem = defineModel('editItem', {
-  type: Function
-})
 const deleteItem = defineModel('deleteItem', {
   type: Function
 })
 
-function retrieveItem (item){
+function retrieveItem(item) {
   const path = `${router.currentRoute.value.path}/retrieve/${item.id}`
   router.push({ path })
 }
@@ -102,7 +129,6 @@ const currentPage = defineModel('currentPage', {
   required: true
 })
 
-
 const totalPages = computed(() => {
   return Math.ceil(quantity.value / perPage.value)
 })
@@ -124,8 +150,6 @@ const tableHeight = computed(() => {
 watch(perPage, () => {
   currentPage.value = 1
 })
-
-
 
 const tableIconColor = {
   delete: 'text-red-500',
