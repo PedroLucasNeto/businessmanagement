@@ -1,8 +1,9 @@
 <template>
-
+  <div>
+    <h1>Create Pacote</h1>
+  </div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style scoped></style>
+<style></style>

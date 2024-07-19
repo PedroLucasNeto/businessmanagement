@@ -1,6 +1,12 @@
 export const componentsList = [
   { name: 'Início', icon: 'fa-solid fa-home', path: '/', routeName: 'home', category: 'Início' },
-  { name: 'Calendário', icon: 'fa-solid fa-calendar', path: '/calendar', routeName: 'calendar', category: 'Início' },
+  {
+    name: 'Calendário',
+    icon: 'fa-solid fa-calendar',
+    path: '/calendar',
+    routeName: 'calendar',
+    category: 'Início'
+  },
   {
     name: 'Orçamentos',
     icon: 'fa-solid fa-bag-shopping',
@@ -9,8 +15,11 @@ export const componentsList = [
     category: 'Gestão'
   },
   {
-    name: 'Clientes', icon: 'fa-solid fa-user', path: '/management/client',
-    routeName: 'client', category: 'Gestão'
+    name: 'Clientes',
+    icon: 'fa-solid fa-user',
+    path: '/management/client',
+    routeName: 'client',
+    category: 'Gestão'
   },
   {
     name: 'Ensaios',
@@ -41,8 +50,11 @@ export const componentsList = [
     category: 'Financeiro'
   },
   {
-    name: 'Categoria', icon: 'fa-solid fa-list', path: '/management/category',
-    routeName: 'category', category: 'Gestão'
+    name: 'Categoria',
+    icon: 'fa-solid fa-list',
+    path: '/management/category',
+    routeName: 'category',
+    category: 'Gestão'
   },
   {
     name: 'Pacote',

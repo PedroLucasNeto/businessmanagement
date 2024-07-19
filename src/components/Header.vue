@@ -28,7 +28,7 @@
         <fa icon="fa-solid fa-user" />
       </RouterLink> -->
       <RouterLink
-        to="/management/booking"
+        to="/management"
         v-if="isAdmin"
         class="cursor-pointer hover:text-secondary"
         active-class="text-primary"

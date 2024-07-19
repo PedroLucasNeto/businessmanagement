@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Transition name="fade" mode="out-in">
-    <div class="min-w-full max-w-full p-4 min-h-screen">
+    <div class="min-w-full max-w-full p-4 h-full">
       <RouterView />
     </div>
   </Transition>
@@ -9,9 +9,9 @@
   <Footer />
 </template>
 <script setup>
-import Footer from './components/Footer.vue';
+import Footer from './components/Footer.vue'
 import Header from './components/Header.vue'
-import Sidebar from './components/Sidebar.vue';
+import Sidebar from './components/Sidebar.vue'
 </script>
 
 <style>

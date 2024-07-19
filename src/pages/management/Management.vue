@@ -5,7 +5,13 @@
     </nav>
     <!-- <CtaImageCard /> -->
     <div class="flex flex-col items-center gap-4 bg-base-200 p-4 h-screen w-full relative">
-      <div class="flex justify-between w-full justify-center items-center">
+      <div
+        v-if="'/management' !== currentView"
+        class="flex justify-between w-full justify-center items-center"
+      >
+        <button @click="goBack" class="btn btn-sm btn-primary text-neutral-100">
+          <fa :icon="'fa-solid fa-arrow-left'" />
+        </button>
         <h1 class="font-bold">{{ viewTitle }}</h1>
         <button @click="redirectCreate" class="btn btn-sm btn-success text-neutral-100">
           <fa :icon="'fa-solid fa-plus'" />
@@ -13,7 +19,6 @@
       </div>
       <RouterView />
     </div>
-    {{ currentView }}
   </div>
 </template>
 
@@ -26,24 +31,24 @@ import { componentsList } from '@/utils/componentsList'
 const route = useRoute()
 const router = useRouter()
 
-const isRouterViewShowing = computed(() => {
-  return route.matched.length > 0
-})
-
 const viewTitle = computed(() => {
   const route = useRoute()
 
-  return componentsList.find((item) => item.path === route.path)?.name
+  const componentName = route.path.split('/')[2]
+  return componentsList.find((item) => item.routeName === componentName)?.name
 })
 
 const currentView = computed(() => {
   const route = useRoute()
-  console.log(route.path)
   return route.path
 })
 
 function redirectCreate() {
   router.push(`${route.path}/create`)
+}
+
+function goBack() {
+  router.go(-1)
 }
 </script>
 

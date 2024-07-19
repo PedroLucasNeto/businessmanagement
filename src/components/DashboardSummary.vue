@@ -12,7 +12,9 @@
         <div class="card-body">
           <h2 class="card-title">Renda mensal</h2>
           <p class="text-2xl font-bold">{{ monthlyRevenue > 0 ? 'R$ ' + monthlyRevenue : '-' }}</p>
-          <p class="text-sm text-gray-500">Total: {{ totalRevenue > 0 ? 'R$ ' + totalRevenue : '-' }}</p>
+          <p class="text-sm text-gray-500">
+            Total: {{ totalRevenue > 0 ? 'R$ ' + totalRevenue : '-' }}
+          </p>
         </div>
       </div>
       <div class="card bg-base-100 shadow-md">
@@ -26,9 +28,18 @@
         <div class="card-body">
           <h2 class="card-title">Atalhos</h2>
           <div class="flex flex-col gap-2">
-            <button class="btn btn-primary" @click="navigateTo('calendar')">Visualizar Calendário</button>
-            <button class="btn btn-info" @click="navigateTo('management/booking')">Gerenciar Eventos</button>
-            <button class="btn btn-accent" @click="navigateTo('management/client')">Visualizar Clientes</button>
+            <button class="btn btn-primary text-neutral-100" @click="navigateTo('calendar')">
+              Abrir Calendário
+            </button>
+            <button class="btn btn-info text-neutral-100" @click="navigateTo('management/booking')">
+              Gerenciar Ensaios
+            </button>
+            <button
+              class="btn btn-accent text-neutral-100"
+              @click="navigateTo('management/client')"
+            >
+              Visualizar Clientes
+            </button>
           </div>
         </div>
       </div>
@@ -37,16 +48,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
-const upcomingBookings = ref(0);
-const nextBookingDate = ref('');
-const monthlyRevenue = ref(0);
-const totalRevenue = ref(0);
-const newClients = ref(0);
+const upcomingBookings = ref(0)
+const nextBookingDate = ref('')
+const monthlyRevenue = ref(0)
+const totalRevenue = ref(0)
+const newClients = ref(0)
 
-const router = useRouter();
+const router = useRouter()
 
 // const fetchDashboardData = async () => {
 //   // Fetch the data from your API
@@ -61,12 +72,12 @@ const router = useRouter();
 // };
 
 const navigateTo = (route) => {
-  router.push(`/${route}`);
-};
+  router.push(`/${route}`)
+}
 
 onMounted(() => {
   // fetchDashboardData();
-});
+})
 </script>
 
 <style scoped>

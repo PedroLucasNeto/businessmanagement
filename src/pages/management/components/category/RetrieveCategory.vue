@@ -1,12 +1,12 @@
 <template>
-  <!-- create a retrieve visualization for event data, it is for a specific event no all of them -->
+  <!-- create a retrieve visualization for budget data, it is for a specific budget no all of them -->
   <div class="flex flex-col items-center justify-center h-full w-full">
     <span
       v-if="globalStore.isLoading"
       class="loading loading-spinner loading-lg text-success"
     ></span>
     <div v-else class="flex flex-col items-center justify-center gap-4 w-full">
-      <h1 class="text-2xl font-bold">Dados do Evento</h1>
+      <h1 class="text-2xl font-bold">Dados do Budgete</h1>
       <div
         class="w-full mt-4 bg-white shadow-md rounded-lg overflow-hidden max-w-2xl border border-gray-200"
       >
@@ -18,7 +18,7 @@
                 type="text"
                 id="name"
                 class="input input-bordered"
-                v-model="event.name"
+                v-model="budget.name"
                 :disabled="!isEditable"
               />
             </div>
@@ -28,7 +28,7 @@
                 type="email"
                 id="email"
                 class="input input-bordered"
-                v-model="event.email"
+                v-model="budget.email"
                 :disabled="!isEditable"
               />
             </div>
@@ -38,7 +38,7 @@
                 type="tel"
                 id="phone"
                 class="input input-bordered"
-                v-model="event.phone"
+                v-model="budget.phone"
                 :disabled="!isEditable"
               />
             </div>
@@ -48,7 +48,7 @@
                 type="date"
                 id="dateOfBirth"
                 class="input input-bordered"
-                v-model="event.dateOfBirth"
+                v-model="budget.dateOfBirth"
                 :disabled="!isEditable"
               />
             </div>
@@ -58,7 +58,7 @@
                 type="text"
                 id="occupation"
                 class="input input-bordered"
-                v-model="event.occupation"
+                v-model="budget.occupation"
                 :disabled="!isEditable"
               />
             </div>
@@ -68,12 +68,11 @@
                 type="text"
                 id="instagram"
                 class="input input-bordered"
-                v-model="event.instagram"
+                v-model="budget.instagram"
                 :disabled="!isEditable"
               />
             </div>
           </div>
-          {{ event }}
         </div>
       </div>
       <div class="flex justify-center items-center gap-4">
@@ -94,22 +93,24 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import eventsService from '@/api/services/eventsService'
+import budgetService from '@/api/services/budgetService'
 import { useGlobalStore } from '@/stores/globalStore'
 import router from '@/router'
 const route = useRoute()
 const id = route.params.id
 
-const event = ref({})
+const budget = ref({})
+const originalBudget = ref({})
 const isEditable = ref(false)
 const globalStore = useGlobalStore()
 
-async function getEvent() {
+async function getBudget() {
   globalStore.isLoading = true
   try {
-    const eventFromDb = await eventsService.getEventById(id)
-    if (!eventFromDb) return
-    event.value = eventFromDb
+    const budgetFromDb = await budgetService.getBudgetById(id)
+    if (!budgetFromDb) return
+    budget.value = budgetFromDb
+    originalBudget.value = budgetFromDb
   } catch (error) {
     console.log(error)
   } finally {
@@ -119,8 +120,8 @@ async function getEvent() {
 
 async function save() {
   try {
-    await eventsService.updateEvent(event.value)
-    getEvent()
+    await budgetService.updateBudget(budget.value)
+    getBudget()
   } catch (error) {
     console.log(error)
   }
@@ -129,7 +130,10 @@ async function save() {
 
 const toggleEdit = () => {
   if (isEditable.value) {
-    getEvent()
+    console.log(originalBudget.value)
+    Object.keys(originalBudget.value).forEach((key) => {
+      budget.value[key] = originalBudget.value[key]
+    })
   }
   isEditable.value = !isEditable.value
 }
@@ -139,6 +143,6 @@ function goBack() {
 }
 
 onMounted(() => {
-  getEvent()
+  getBudget()
 })
 </script>
