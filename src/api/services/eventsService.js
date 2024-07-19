@@ -11,7 +11,15 @@ async function createEvent(event) {
 
 async function getAllEvents() {
   try {
-    const {data} = await api.get("/customEvents");
+    const { data } = await api.get("/customEvents");
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
+}
+async function getEventById(id) {
+  try {
+    const { data } = await api.get(`/customEvents/${id}`);
     return data;
   } catch (error) {
     console.log(error)
@@ -21,7 +29,8 @@ async function getAllEvents() {
 
 const EventService = {
   createEvent,
-  getAllEvents
+  getAllEvents,
+  getEventById
 };
 
 export default EventService;

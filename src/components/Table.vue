@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div v-if="globalStore.tableBusy">
-      <span class="loading loading-spinner loading-lg text-success"></span>
-    </div>
+  <div class="w-full">
+    <Loading v-if="globalStore.tableBusy" />
     <div
       v-else
       class="flex flex-col items-center min-w-92 gap-4 max-w-full shadow-xl mt-4 p-4 bg-base-100"
@@ -94,6 +92,7 @@ import { computed, defineModel, watch } from 'vue'
 import { useGlobalStore } from '@/stores/globalStore'
 import { useRouter } from 'vue-router'
 import { processValue } from '@/utils/utilMethods'
+import Loading from './Loading.vue'
 
 const router = useRouter()
 const globalStore = useGlobalStore()
@@ -125,8 +124,7 @@ const quantity = defineModel('quantity', {
 })
 const currentPage = defineModel('currentPage', {
   type: Number,
-  default: 1,
-  required: true
+  default: 1
 })
 
 const totalPages = computed(() => {

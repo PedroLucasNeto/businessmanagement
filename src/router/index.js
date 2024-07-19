@@ -44,7 +44,17 @@ const routes = [
         component: () => import('@/pages/management/components/budget/Budget.vue'),
         meta: {
           requiresAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'retrieve/:id',
+            name: 'retrieveBudget',
+            component: () => import('@/pages/management/components/budget/RetrieveBudget.vue'),
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       },
       {
         path: 'welcome',
@@ -60,71 +70,131 @@ const routes = [
         component: () => import('@/pages/management/components/booking/Booking.vue'),
         meta: {
           requiresAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'retrieve/:id',
+            name: 'retrieveBooking',
+            component: () => import('@/pages/management/components/booking/RetrieveBooking.vue'),
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       },
-      {
-        path: 'booking/retrieve/:id',
-        name: 'retrieveBooking',
-        component: () => import('@/pages/management/components/booking/RetrieveBooking.vue'),
-        meta: {
-          requiresAuth: true
-        }
-      },
+
       {
         path: 'client',
         name: 'client',
         component: () => import('@/pages/management/components/client/Client.vue'),
         meta: {
           requiresAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'retrieve/:id',
+            name: 'retrieveClient',
+            component: () => import('@/pages/management/components/client/RetrieveClient.vue'),
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       },
-      {
-        path: 'client/retrieve/:id',
-        name: 'retrieveClient',
-        component: () => import('@/pages/management/components/client/RetrieveClient.vue'),
-        meta: {
-          requiresAuth: true
-        }
-      },
+
       {
         path: 'event',
         name: 'event',
         component: () => import('@/pages/management/components/event/Event.vue'),
         meta: {
           requiresAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'retrieve/:id',
+            name: 'retirieveEvent',
+            component: () => import('@/pages/management/components/event/RetrieveEvent.vue'),
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       },
+
       {
         path: 'addon',
         name: 'addon',
         component: () => import('@/pages/management/components/addon/Addon.vue'),
         meta: {
           requiresAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'addon/retrieve/:id',
+            name: 'retrieveAddon',
+            component: () => import('@/pages/management/components/addon/Addon.vue'),
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       },
+
       {
         path: 'transaction',
         name: 'transaction',
         component: () => import('@/pages/management/components/transaction/Transcation.vue'),
         meta: {
           requiresAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'transaction/retrieve/:id',
+            name: 'retrieveTransaction',
+            component: () => import('@/pages/management/components/transaction/Transcation.vue'),
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       },
+
       {
         path: 'category',
         name: 'category',
         component: () => import('@/pages/management/components/category/Category.vue'),
         meta: {
           requiresAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'category/retrieve/:id',
+            name: 'retrieveCategory',
+            component: () => import('@/pages/management/components/category/Category.vue'),
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       },
+
       {
         path: 'pricing',
         name: 'pricing',
         component: () => import('@/pages/management/components/pricing/Pricing.vue'),
         meta: {
           requiresAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'pricing/retrieve/:id',
+            name: 'retrievePricing',
+            component: () => import('@/pages/management/components/pricing/Pricing.vue'),
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       }
     ]
   }
