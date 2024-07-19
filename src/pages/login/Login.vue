@@ -11,14 +11,25 @@
             <label class="label">
               <span class="label-text">Email</span>
             </label>
-            <input type="email" v-model="email" class="input input-bordered" required :disabled="authStore.isLoading" />
+            <input
+              type="email"
+              v-model="email"
+              class="input input-bordered"
+              required
+              :disabled="authStore.isLoading"
+            />
           </div>
           <div class="form-control">
             <label class="label">
               <span class="label-text">Senha</span>
             </label>
-            <input type="password" v-model="password" class="input input-bordered" required
-              :disabled="authStore.isLoading" />
+            <input
+              type="password"
+              v-model="password"
+              class="input input-bordered"
+              required
+              :disabled="authStore.isLoading"
+            />
             <label class="label">
               <a href="#" class="label-text-alt link link-hover">Esqueceu a senha?</a>
             </label>
@@ -27,7 +38,9 @@
             </label>
           </div>
           <div class="form-control mt-6">
-            <button class="btn btn-primary" type="submit" :disabled="authStore.isLoading">Entrar</button>
+            <button class="btn btn-primary" type="submit" :disabled="authStore.isLoading">
+              Entrar
+            </button>
           </div>
         </form>
       </div>
@@ -36,23 +49,19 @@
 </template>
 
 <script setup>
-import { useAuthStore } from '@/stores/authStore';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-const authStore = useAuthStore();
-const router = useRouter();
+import { useAuthStore } from '@/stores/authStore'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+const authStore = useAuthStore()
+const router = useRouter()
 
-const email = ref('');
-const password = ref('');
+const email = ref('')
+const password = ref('')
 
-async function login () {
-  await authStore.login({ email: email.value, password: password.value });
-  console.log(authStore.isAuthenticated)
+async function login() {
+  await authStore.login({ email: email.value, password: password.value })
   if (authStore.isAuthenticated) {
-    router.push('/');
+    router.push('/')
   }
 }
-
-
-
 </script>

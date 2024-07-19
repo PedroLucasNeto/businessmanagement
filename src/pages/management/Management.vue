@@ -4,7 +4,7 @@
       <Breadcrumbs />
     </nav>
     <!-- <CtaImageCard /> -->
-    <div class="flex flex-col items-center gap-4 bg-base-200 p-4 h-screen w-full relative">
+    <div class="flex flex-col items-center gap-4 bg-base-200 p-4 min-h-screen w-full relative">
       <div
         v-if="'/management' !== currentView"
         class="flex justify-between w-full justify-center items-center"
