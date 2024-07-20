@@ -116,7 +116,8 @@ const tableFields = defineModel('tableFields', {
 })
 const perPage = defineModel('perPage', {
   type: Number,
-  required: true
+  required: true,
+  default: 15
 })
 const quantity = defineModel('quantity', {
   type: Number,
@@ -142,7 +143,7 @@ const goToPage = (page) => {
 }
 
 const tableHeight = computed(() => {
-  return quantity.value > perPage.value ? 'h-96' : 'h-auto'
+  return quantity.value > perPage.value ? 'h-full' : 'h-auto'
 })
 
 watch(perPage, () => {
